@@ -1,19 +1,64 @@
-[tool.black]
-line-length = 80
-target-version = ['py36','py37', 'py38']
-include = '\.pyi?$'
-exclude = '''
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
-(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.md
-    | \.mypy_cache
-    | \.txt
-    | .gitignore
-    | _build
-    | buck-out
-    | build
-    | dist
-  )
-'''
+[project]
+name = "contextualSpellCheck"
+version = "0.4.4"
+description = "Contextual spell correction using BERT (bidirectional representations)"
+readme = "README.md"
+requires-python = ">=3.8, <3.14"
+authors = [
+    {name = "R1j1t", email = "r1j1t@protonmail.com"}
+]
+maintainers = [
+    {name = "Wessell", email = "git@wesl.cc"}
+]
+license = {text = "MIT License"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Development Status :: 4 - Beta",
+]
+urls = {Homepage = "https://github.com/R1j1t/contextualSpellCheck"}
+dependencies = [
+    "torch>=1.4",
+    "editdistance==0.8.1",
+    "transformers>=4.0.0",
+    "spacy>=3.0.0",
+    "en-core-web-sm",
+]
+
+[tool.setuptools]
+include-package-data = true
+py-modules = ["contextualSpellCheck"]
+
+[tool.uv.sources]
+en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
+
+[dependency-groups]
+dev = [
+  {include-group = "lint"},
+  {include-group = "test"},
+  {include-group = "debug"},
+]
+lint = [
+    "ruff>=0.14.2",
+]
+test = [
+    "pytest>=8.3.5",
+]
+debug = [
+    "icecream>=2.1.8",
+]
