@@ -30,10 +30,10 @@ classifiers = [
 urls = { Homepage = "https://github.com/R1j1t/contextualSpellCheck" }
 dependencies = [
     "torch>=1.4",
-    "editdistance==0.8.1",
     "transformers>=4.0.0",
     "spacy>=3.0.0",
     "en-core-web-sm",
+    "levenshtein>=0.25.1",
 ]
 
 [tool.setuptools]

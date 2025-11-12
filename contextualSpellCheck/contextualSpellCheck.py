@@ -5,7 +5,7 @@ import warnings
 from datetime import datetime
 import unicodedata
 
-import editdistance
+import Levenshtein
 import spacy
 import torch
 from spacy.tokens import Doc, Token, Span
@@ -375,7 +375,7 @@ class ContextualSpellCheck(object):
             if self.debug:
                 print("misspellings_dict[misspell]", misspellings_dict[misspell])
             for candidate in misspellings_dict[misspell]:
-                edit_dist = editdistance.eval(misspell.text, candidate)
+                edit_dist = Levenshtein.distance(misspell.text, candidate)
                 if edit_dist < least_edit_dist:
                     least_edit_dist = edit_dist
                     response[misspell] = candidate
