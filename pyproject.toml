@@ -7,13 +7,12 @@ name = "contextualSpellCheck"
 version = "0.4.4"
 description = "Contextual spell correction using BERT (bidirectional representations)"
 readme = "README.md"
-requires-python = ">=3.8, <3.14"
+requires-python = ">=3.9, <3.14"
 authors = [{ name = "R1j1t", email = "r1j1t@protonmail.com" }]
 maintainers = [{ name = "Wessell", email = "git@wesl.cc" }]
 license = { text = "MIT License" }
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
