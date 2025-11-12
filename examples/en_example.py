@@ -1,5 +1,5 @@
 import spacy
-import contextualSpellCheck
+import contextualSpellCheck  # FIXME: This is otherwise an unused import but is needed to register the pipe
 
 nlp = spacy.load("en_core_web_sm")
 
