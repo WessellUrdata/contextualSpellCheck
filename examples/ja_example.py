@@ -11,7 +11,9 @@ nlp.add_pipe(
     },
 )
 
-doc = nlp("しかし大勢においては、ここような事故はウィキペディアの拡大には影響を及ぼしていない。")
+doc = nlp(
+    "しかし大勢においては、ここような事故はウィキペディアの拡大には影響を及ぼしていない。"
+)
 print(doc._.performed_spellCheck)
 print(doc._.outcome_spellCheck)
 

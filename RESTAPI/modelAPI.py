@@ -34,14 +34,12 @@ def model_query():
         retokenizer.merge(doc[0:])
 
     response = make_response(
-        json.dumps(
-            {
-                "success": True,
-                "input": doc.text,
-                "corrected": doc._.outcome_spellCheck,
-                "suggestion_score": correctionScore,
-            }
-        )
+        json.dumps({
+            "success": True,
+            "input": doc.text,
+            "corrected": doc._.outcome_spellCheck,
+            "suggestion_score": correctionScore,
+        })
     )
     response.status_code = 200
     response.headers["Content-Type"] = "application/json"

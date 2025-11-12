@@ -329,9 +329,7 @@ def test_ranking_candidateRanking(inputSentence, misspell):
     # changes made after v0.1
     # assert selectedWord ==
     # {doc[key]: value for key, value in misspell.items()}
-    assert [tok.i for tok in selectedWord.keys()] == [
-        tok for tok in misspell.keys()
-    ]
+    assert [tok.i for tok in selectedWord.keys()] == [tok for tok in misspell.keys()]
     assert [tokString for tokString in selectedWord.values()] == [
         tok for tok in misspell.values()
     ]
@@ -347,17 +345,13 @@ def test_compatible_spacyPipeline():
 
 def test_doc_extensions():
     nlp.add_pipe("contextual spellchecker")
-    doc = nlp(
-        "Income was $9.4 milion compared to the prior year of $2.7 milion."
-    )
+    doc = nlp("Income was $9.4 milion compared to the prior year of $2.7 milion.")
 
     gold_suggestion = {
         doc[4]: "million",
         doc[13]: "million",
     }
-    gold_outcome = (
-        "Income was $9.4 million compared to the prior year of $2.7 million."
-    )
+    gold_outcome = "Income was $9.4 million compared to the prior year of $2.7 million."
     gold_score = {
         doc[4]: [
             ("million", 0.59422),
@@ -390,9 +384,9 @@ def test_doc_extensions():
     assert [tok.i for tok in doc._.suggestions_spellCheck.keys()] == [
         tok.i for tok in gold_suggestion.keys()
     ]
-    assert [
-        tokString for tokString in doc._.suggestions_spellCheck.values()
-    ] == [tokString for tokString in gold_suggestion.values()]
+    assert [tokString for tokString in doc._.suggestions_spellCheck.values()] == [
+        tokString for tokString in gold_suggestion.values()
+    ]
     assert doc._.outcome_spellCheck == gold_outcome
     # splitting components to make use of approx function
     assert [tok.i for tok in doc._.score_spellCheck.keys()] == [
@@ -406,19 +400,13 @@ def test_doc_extensions():
         word_score[0]
         for value in doc._.score_spellCheck.values()
         for word_score in value
-    ] == [
-        word_score[0] for value in gold_score.values() for word_score in value
-    ]
+    ] == [word_score[0] for value in gold_score.values() for word_score in value]
     assert [
         word_score[1]
         for value in doc._.score_spellCheck.values()
         for word_score in value
     ] == approx(
-        [
-            word_score[1]
-            for value in gold_score.values()
-            for word_score in value
-        ],
+        [word_score[1] for value in gold_score.values() for word_score in value],
         rel=1e-4,
         abs=1e-4,
     )
@@ -430,9 +418,7 @@ def test_span_extensions():
         nlp.add_pipe("contextual spellchecker")
     except BaseException:
         print("contextual SpellCheck already in pipeline")
-    doc = nlp(
-        "Income was $9.4 milion compared to the prior year of $2.7 milion."
-    )
+    doc = nlp("Income was $9.4 milion compared to the prior year of $2.7 milion.")
 
     gold_score = {
         doc[2]: [],
@@ -461,19 +447,13 @@ def test_span_extensions():
         word_score[0]
         for value in doc[2:6]._.score_spellCheck.values()
         for word_score in value
-    ] == [
-        word_score[0] for value in gold_score.values() for word_score in value
-    ]
+    ] == [word_score[0] for value in gold_score.values() for word_score in value]
     assert [
         word_score[1]
         for value in doc[2:6]._.score_spellCheck.values()
         for word_score in value
     ] == approx(
-        [
-            word_score[1]
-            for value in gold_score.values()
-            for word_score in value
-        ],
+        [word_score[1] for value in gold_score.values() for word_score in value],
         rel=1e-4,
         abs=1e-4,
     )
@@ -486,9 +466,7 @@ def test_span_extensions():
 def test_token_extension():
     if "contextual spellchecker" not in nlp.pipe_names:
         nlp.add_pipe("contextual spellchecker")
-    doc = nlp(
-        "Income was $9.4 milion compared to the prior year of $2.7 milion."
-    )
+    doc = nlp("Income was $9.4 milion compared to the prior year of $2.7 milion.")
 
     gold_suggestions = "million"
     gold_score = [
@@ -510,9 +488,7 @@ def test_token_extension():
     assert [word_score[0] for word_score in doc[4]._.score_spellCheck] == [
         word_score[0] for word_score in gold_score
     ]
-    assert [
-        word_score[1] for word_score in doc[4]._.score_spellCheck
-    ] == approx(
+    assert [word_score[1] for word_score in doc[4]._.score_spellCheck] == approx(
         [word_score[1] for word_score in gold_score], rel=1e-4, abs=1e-4
     )
     nlp.remove_pipe("contextual spellchecker")
@@ -524,9 +500,7 @@ def test_warning():
         nlp.add_pipe("contextual spellchecker")
     # merge_ents = nlp.create_pipe("merge_entities")
     nlp.add_pipe("merge_entities")
-    doc = nlp(
-        "Income was $9.4 milion compared to the prior year of $2.7 milion."
-    )
+    doc = nlp("Income was $9.4 milion compared to the prior year of $2.7 milion.")
 
     with warnings.catch_warnings(record=True) as w:
         warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -579,9 +553,7 @@ element in pipeline eg. merge_entities"
 def test_vocab_file():
     with warnings.catch_warnings(record=True) as w:
         nlp = spacy.load("en_core_web_sm")
-        ContextualSpellCheck(
-            nlp, "contextualSpellCheck", vocab_path="testing.txt"
-        )
+        ContextualSpellCheck(nlp, "contextualSpellCheck", vocab_path="testing.txt")
         assert any([issubclass(i.category, UserWarning) for i in w])
         assert any(["Using default vocab" in str(i.message) for i in w])
     currentPath = os.path.dirname(__file__)
@@ -590,9 +562,7 @@ def test_vocab_file():
     testVocab = os.path.join(currentPath, "testVocab.txt")
     print(testVocab, currentPath, debugPathFile)
     nlp = spacy.load("en_core_web_sm")
-    ContextualSpellCheck(
-        nlp, "contextualSpellCheck", vocab_path=testVocab, debug=True
-    )
+    ContextualSpellCheck(nlp, "contextualSpellCheck", vocab_path=testVocab, debug=True)
     with open(orgDebugFilePath) as f1:
         with open(debugPathFile) as f2:
             assert f1.read() == f2.read()
@@ -629,12 +599,8 @@ def test_max_edit_dist(max_edit_distance, expected_spell_check_flag):
     if "contextual spellchecker" in nlp.pipe_names:
         nlp.remove_pipe("contextual spellchecker")
     # checker_edit_dist = ContextualSpellCheck(max_edit_dist=max_edit_distance)
-    nlp.add_pipe(
-        "contextual spellchecker", config={"max_edit_dist": max_edit_distance}
-    )
-    doc = nlp(
-        "Income was $9.4 milion compared to the prior year of $2.7 milion."
-    )
+    nlp.add_pipe("contextual spellchecker", config={"max_edit_dist": max_edit_distance})
+    doc = nlp("Income was $9.4 milion compared to the prior year of $2.7 milion.")
 
     # To check the status of `performed_spell_check` flag
     assert doc[4]._.get_require_spellCheck == expected_spell_check_flag
@@ -642,9 +608,7 @@ def test_max_edit_dist(max_edit_distance, expected_spell_check_flag):
     assert doc._.performed_spellCheck == expected_spell_check_flag
 
     # To check the response of "suggestions_spellCheck"
-    gold_outcome = (
-        "Income was $9.4 million compared to the prior year of $2.7 million."
-    )
+    gold_outcome = "Income was $9.4 million compared to the prior year of $2.7 million."
     gold_token = "million"
     gold_outcome = gold_outcome if expected_spell_check_flag else ""
     gold_token = gold_token if expected_spell_check_flag else ""
@@ -698,10 +662,9 @@ def test_doc_extensions_bug(
     assert [tok.text for tok in doc._.suggestions_spellCheck.keys()] == [
         tok for tok in expected_suggestion_doc.keys()
     ]
-    assert [
-        tokString for tokString in doc._.suggestions_spellCheck.values()
-    ] == [tokString for tokString in expected_suggestion_doc.values()]
+    assert [tokString for tokString in doc._.suggestions_spellCheck.values()] == [
+        tokString for tokString in expected_suggestion_doc.values()
+    ]
     assert (
-        doc[possible_misspel_index]._.get_suggestion_spellCheck
-        == misspell_suggestion
+        doc[possible_misspel_index]._.get_suggestion_spellCheck == misspell_suggestion
     )
